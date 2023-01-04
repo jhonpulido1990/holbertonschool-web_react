@@ -2,6 +2,7 @@ import $ from "jquery";
 import _ from 'lodash';
 import './body.css';
 
+$('head').append('<link rel="stylesheet" href="../css/main.css" type="text/css" />');
 $('body').append(`<p>Dashboard data for the students</p>`);
 $('body').append(`<button>Click here to get started</button>`);
 $('body').append(`<p id='count'></p>`);
