@@ -1,27 +1,19 @@
-import { render, screen } from '@testing-library/react';
-import App from './App';
-import React from 'react';
 import { shallow } from 'enzyme';
-import { expect } from 'chai';
+import App from './App';
 
-describe('<App />', () => {
-  it('app exists', () => {
-    const app = shallow(<App />);
-    expect(app.exists());
+const wrapper = shallow(<App />);
+describe("App.test.js", () => {
+  it('Correct component rendering', () => {
+    shallow(<App />);
   });
 
-  it('verifying App-header div', () => {
-    const app = shallow(<App />);
-    expect(app.contains(<header className='App-header' />));
+  it('renders App-header', () => {
+    expect(wrapper.find('div.App-header').exists()).toEqual(true);
   });
-
-  it('verifying App-body div', () => {
-    const app = shallow(<App />);
-    expect(app.contains(<main className='App-body' />));
+  it('renders App-body', () => {
+    expect(wrapper.find('div.App-body').exists()).toEqual(true);
   });
-
-  it('verifying App-footer div', () => {
-    const app = shallow(<App />);
-    expect(app.contains(<footer className='App-header' />));
+  it('renders App-footer', () => {
+    expect(wrapper.find('div.App-footer').exists()).toEqual(true);
   });
 });
