@@ -1,20 +1,19 @@
 import { getFullYear, getFooterCopy, getLatestNotification } from './utils';
-
-
-describe('Testing - utils.test.js file', () => {
-  it('Year returns current year', () => {
-    expect(getFullYear()).toBe( new Date().getFullYear());
+import { strict as test } from 'assert';
+describe('Test Utils', () => {
+  it('checking if year is correct', () => {
+    test.equal(getFullYear(), 2020);
   });
 
-  it('getFooterCopy case 1 when True', () => {
-    expect(getFooterCopy(true)).toBe("Holberton School");
+  it('checking if school is correct', () => {
+    test.equal(getFooterCopy(true), 'Holberton School True');
   });
 
-  it('getFooterCopy case 2 when False', () => {
-    expect(getFooterCopy(false)).toBe("Holberton School main dashboard");
+  it('checking if dashboard is correct', () => {
+    test.equal(getFooterCopy(false), 'Holberton School False');
   });
 
-  it('getLatestNotification works', () => {
-    expect(getLatestNotification()).toBe("<strong>Urgent requirement</strong> - complete by EOD");
+  it('checking notifications', () => {
+    test.equal(getLatestNotification(), 'Updating Notification banner');
   });
 });
