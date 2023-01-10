@@ -1,5 +1,21 @@
 /* Add a border and some padding around the div */
+:root {
+  --color-brand: #e01d3f;
+}
+
 .Notifications {
     border: 3px solid #E23333;
     padding: 2rem;
+}
+
+.Notifications button img {
+  width: 20px;
+}
+
+[data-priority="default"] {
+  color: #210a61;
+}
+
+[data-priority="urgent"] {
+  color: #e01d3f;
 }
