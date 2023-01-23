@@ -84,4 +84,26 @@ describe('<Notifications />', () => {
     expect(noNewNotifs).to.have.lengthOf(1);
     expect(noNewNotifs.text()).to.equal('No new notifications for now');
   });
+  // TODO
+/*   test('markAsRead calls console.log', () => {
+    console.log = jest.fn();
+
+    const wrapper = shallow(<Notifications />);
+    wrapper.instance().markAsRead(0);
+
+    expect(console.log).toHaveBeenCalledWith(
+      `Notification 0 has been marked as read`
+    );
+  }); */
 });
+
+/* test('logOut alerts with correct string', () => {
+  const myLogOut = jest.fn(() => undefined);
+  const myAlert = jest.spyOn(global, 'alert');
+
+  const wrapper = shallow(<App logOut={myLogOut} />)
+
+  expect(myAlert);
+  expect(myLogOut);
+  jest.restoreAllMocks();
+}); */
