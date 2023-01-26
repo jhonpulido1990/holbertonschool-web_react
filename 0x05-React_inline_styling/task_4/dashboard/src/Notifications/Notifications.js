@@ -78,6 +78,27 @@ Notification.defaultProps = {
   listNotifications: []
 };
 
+const opacityKeyframes = {
+  from: {
+    opacity: '0.5'
+  },
+  to: {
+    opacity: '1'
+  }
+};
+
+const bounceKeyframes = {
+  '0%': {
+    transform: 'translateY(0px)'
+  },
+  '50%': {
+    transform: 'translateY(-5px)'
+  },
+  '100%': {
+    transform: 'translateY(5px)'
+  }
+};
+
 const styles = StyleSheet.create({
   div: {
     padding: '1rem',
@@ -104,6 +125,13 @@ const styles = StyleSheet.create({
     marginBottom: 0,
     '@media (max-width: 900px)': {
 /*       display: 'none' */
+    },
+    ':hover': {
+      cursor: 'pointer',
+      animationName: [opacityKeyframes, bounceKeyframes],
+      animationDuration: '1s, 0.5s',
+      animationIterationCount: '3, 3',
+      animationTimingFunction: 'ease, ease'
     }
   },
   wrapper: {
