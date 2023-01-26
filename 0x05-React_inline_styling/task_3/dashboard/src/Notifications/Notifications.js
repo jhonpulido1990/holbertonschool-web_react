@@ -35,7 +35,7 @@ class Notification extends Component {
           {listNotifications.length ? (
             <Fragment>
               <p>Here is the list of notifications</p>
-              <ul>
+              <ul className={css(styles.list)}>
                 {listNotifications.map(({ id, type, value, html }) => (
                   <NotificationItem
                     key={id}
@@ -82,15 +82,29 @@ const styles = StyleSheet.create({
   div: {
     padding: '1rem',
     position: 'relative',
-    margin: '0.5rem'
+    margin: '0.5rem',
+    '@media (max-width: 900px)': {
+      padding: '0'
+    }
   },
   notifs: {
     border: '1px dashed #e1354b',
     marginTop: '0',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    '@media (max-width: 900px)': {
+      width: '95vw',
+      height: '95vh',
+      margin: '0',
+      zIndex: '10',
+      border: '1px solid lightgray',
+      fontSize: '20px'
+    }
   },
   'menu-item': {
-    marginBottom: 0
+    marginBottom: 0,
+    '@media (max-width: 900px)': {
+/*       display: 'none' */
+    }
   },
   wrapper: {
     position: 'absolute',
@@ -99,6 +113,12 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     flexWrap: 'wrap',
     alignItems: 'flex-end'
+  },
+  list: {
+    '@media (max-width: 900px)': {
+      listStyleType: 'none',
+      paddingLeft: '0'
+    }
   },
   button: {
     position: 'absolute',
