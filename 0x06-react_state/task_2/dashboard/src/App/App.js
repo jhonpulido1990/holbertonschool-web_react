@@ -10,23 +10,57 @@ import CourseList from '../CourseList/CourseList';
 import BodySection from '../BodySection/BodySection';
 import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
 
+import AppContext, { user }  from './AppContext';
+
 class App extends Component {
   constructor(props) {
     super(props)
     this.handleLogout = this.handleLogout.bind(this);
     this.handleDisplayDrawer = this.handleDisplayDrawer.bind(this);
     this.handleHideDrawer = this.handleHideDrawer.bind(this);
-    this.state = {displayDrawer: false};
+    this.logIn = this.logIn.bind(this);
+    this.logOut = this.logOut.bind(this);
+
+    this.state = {
+      displayDrawer: false,
+      user: {
+        email: '',
+        password: '',
+        isLoggedIn: false,
+      },
+      logOut: () => this.setState({...this.state,
+        user: { email: '', password: '', isLoggedIn: false }
+      })
+    };
   }
 
   handleDisplayDrawer() {
     this.setState({displayDrawer: true});
-}
+  }
 
   handleHideDrawer() {
     this.setState({displayDrawer: false});
-}
+  }
 
+  logIn(email, password) {
+    this.setState({
+      user: {
+        email: email,
+        password: password,
+        isLoggedIn: true,
+      },
+    });
+  }
+
+  logOut() {
+    this.setState({
+      user: {
+        email: '',
+        password: '',
+        isLoggedIn: false,
+      },
+    });
+  }
 
   componentDidMount() {
       window.addEventListener("keydown", this.handleLogout);
@@ -41,11 +75,12 @@ class App extends Component {
           event.preventDefault();
           alert("Logging you out");
           this.props.logOut();
-      }
     }
+  }
 
   render() {
-    const { isLoggedIn } = this.props;
+    const { isLoggedIn } = this.state.user;
+    const {user, logOut} = this.state;
 
     const listCourses = [
       { id: 1, name: 'ES6', credit: 60 },
@@ -65,6 +100,7 @@ class App extends Component {
 
     return (
       <Fragment>
+        <AppContext.Provider value={{ user, logOut }}>
         <Notifications
         listNotifications={listNotifications}
         displayDrawer={this.state.displayDrawer}
@@ -76,7 +112,7 @@ class App extends Component {
             <div className={css(styles.padding)}>
               {!isLoggedIn && (
                   <BodySectionWithMarginBottom title='Log in to continue'>
-                    <Login />
+                    <Login logIn={this.logIn}/>
                   </BodySectionWithMarginBottom>
                 )}
                 {isLoggedIn && (
@@ -94,20 +130,11 @@ class App extends Component {
               </div>
           <Footer />
         </div>
+        </AppContext.Provider>
       </Fragment>
     );
   }
 }
-
-App.propTypes = {
-  isLoggedIn: PropTypes.bool,
-  logOut: PropTypes.func
-};
-
-App.defaultProps = {
-  isLoggedIn: false,
-  logOut: () => undefined
-};
 
 const styles = StyleSheet.create({
   'sans-serif': {
