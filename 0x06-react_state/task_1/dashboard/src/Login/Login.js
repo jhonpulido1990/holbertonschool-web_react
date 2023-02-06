@@ -1,25 +1,95 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, Component } from 'react';
 import { StyleSheet, css } from 'aphrodite';
+import PropTypes from 'prop-types';
 
-const Login = () => {
-  return (
+class Login extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isLoggedIn: props.isLoggedIn,
+      email: '',
+      password: '',
+      enableSubmit: false
+    };
+
+    this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
+    this.handleChangeEmail = this.handleChangeEmail.bind(this);
+    this.handleChangePassword = this.handleChangePassword.bind(this);
+  }
+
+  handleLoginSubmit(event) {
+    this.setState({ ...this.state, isLoggedIn: true });
+
+    event.preventDefault();
+  }
+
+  handleChangeEmail(event) {
+    this.setState({ ...this.state, email: event.target.value });
+
+    const { email, password } = this.state;
+
+    if (email !== '' && password !== '')
+      this.setState({ ...this.state, enableSubmit: true });
+  }
+
+  handleChangePassword(event) {
+    this.setState({ ...this.state, password: event.target.value });
+
+    const { email, password } = this.state;
+
+    if (email !== '' && password !== '')
+      this.setState({ ...this.state, enableSubmit: true });
+  }
+
+  render() {
+    const { email, password, enableSubmit } = this.state;
+
+    return (
     <Fragment>
       <p>Log in to access the full dashboard</p>
-      <div className={css(styles.form)}>
+      <div>
+      <form className={css(styles.form)} onSubmit={this.handleLoginSubmit}>
         <div className={css(styles['input-group'])}>
-          <label htmlFor='email' className={css(styles.label, styles['email-label'])}>Email:</label>
-          <input type='email' name='email' id='email' />
+          <label htmlFor='email'
+          className={css(styles.label, styles['email-label'])}
+          >
+            Email:
+            </label>
+          <input
+          type='email'
+          name='email'
+          id='email'
+          value={email}
+          onChange={this.handleChangeEmail}
+          />
         </div>
+
       <div className={css(styles['input-group'])}>
-        <label htmlFor='password' className={css(styles.label)}>Password:</label>
-        <input type='password' name='password' id='password' />
+        <label htmlFor='password' className={css(styles.label)}>
+          Password:
+          </label>
+        <input
+        type='password'
+        name='password'
+        id='password'
+        value={password}
+        onChange={this.handleChangePassword}
+        />
       </div>
 
-      <button className={css(styles.button)}>OK</button>
+      <input
+      type='submit'
+      className={css(styles.button)}
+      disabled={!enableSubmit}
+      data-testid='submit'
+      />
+      </form>
     </div>
-    </Fragment>
+  </Fragment>
   );
-};
+  }
+}
 
 Login.displayName = 'Login';
 
@@ -54,5 +124,13 @@ const styles = StyleSheet.create({
     }
   }
 });
+
+Login.propTypes = {
+  isLoggedIn: PropTypes.bool
+};
+
+Login.defaultProps = {
+  isLoggedIn: false
+};
 
 export default Login;
