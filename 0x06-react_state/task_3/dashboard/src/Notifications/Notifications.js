@@ -1,42 +1,22 @@
-import React, { Fragment, Component } from 'react';
+import React, { Fragment, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, css } from 'aphrodite';
 
-import { getLatestNotification } from '../utils/utils';
 import closeIcon from '../assets/close-icon.png';
 
 import NotificationItem from './NotificationItem';
 import NotificationItemShape from './NotificationItemShape';
 
-class Notification extends Component {
-  constructor(props) {
-    super(props);
-    this.markAsRead = this.markAsRead.bind(this);
-  }
-
-  markAsRead(id) {
-    console.log(`Notification ${id} has been marked as read`);
-  }
-
-  shouldComponentUpdate(nextProps) {
-    const currentNotifs = this.props.listNotifications;
-    const newNotifs = nextProps.listNotifications;
-
-    const currentDrawer = this.props.displayDrawer;
-    const newDrawer = nextProps.displayDrawer;
-
-    return (
-      newNotifs.length > currentNotifs.length || newDrawer !== currentDrawer
-    );
-  }
-
+class Notifications extends PureComponent {
   render() {
     const {
       listNotifications,
       displayDrawer,
       handleDisplayDrawer,
-      handleHideDrawer
+      handleHideDrawer,
+      markNotificationAsRead
     } = this.props;
+
     return (
       <div className={css(styles.wrapper)} data-testid='wrapper'>
         <div
@@ -45,7 +25,7 @@ class Notification extends Component {
         onClick={handleDisplayDrawer}
         >
           Your Notifications
-          </div>
+        </div>
         {displayDrawer && (
           <div className={css(styles.div, styles.notifs)} data-testid='notifs'>
           {listNotifications.length ? (
@@ -55,10 +35,11 @@ class Notification extends Component {
                 {listNotifications.map(({ id, type, value, html }) => (
                   <NotificationItem
                     key={id}
+                    id={id}
                     type={type}
                     value={value}
                     html={html}
-                    markAsRead={this.markAsRead}
+                    markAsRead={markNotificationAsRead}
                   />
                 ))}
               </ul>
@@ -85,18 +66,20 @@ class Notification extends Component {
   }
 }
 
-Notification.propTypes = {
+Notifications.propTypes = {
   displayDrawer: PropTypes.bool,
   listNotifications: PropTypes.arrayOf(NotificationItemShape),
   handleDisplayDrawer: PropTypes.func,
-  handleHideDrawer: PropTypes.func
+  handleHideDrawer: PropTypes.func,
+  markNotificationAsRead: PropTypes.func
 };
 
-Notification.defaultProps = {
+Notifications.defaultProps = {
   displayDrawer: false,
   listNotifications: [],
   handleDisplayDrawer: () => {},
-  handleHideDrawer: () => {}
+  handleHideDrawer: () => {},
+  markNotificationAsRead: () => {},
 };
 
 const opacityKeyframes = {
@@ -178,4 +161,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Notification;
+export default Notifications;
